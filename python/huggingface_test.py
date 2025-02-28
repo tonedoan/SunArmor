@@ -22,14 +22,16 @@ def classify_image(image_path):
     # Get predicted class and confidence score
     logits = outputs.logits
     predicted_class_idx = logits.argmax(-1).item()  # Get class index
+    label = model.config.id2label.get(predicted_class_idx, f"Class {predicted_class_idx}")
     predicted_class_score = torch.nn.functional.softmax(logits, dim=-1)[0][predicted_class_idx].item()  # Get class score
 
-    return predicted_class_idx, predicted_class_score
+    return label, predicted_class_idx, predicted_class_score
 
 # Path to your image file
 image_path = "./benign.jpg"
-predicted_class_idx, predicted_class_score = classify_image(image_path)
+label, predicted_class_idx, predicted_class_score = classify_image(image_path)
 
 # Output result
+print(f"Predicted Class: {label}")
 print(f"Predicted Class Index: {predicted_class_idx}")
 print(f"Predicted Confidence Score: {predicted_class_score:.4f}")
