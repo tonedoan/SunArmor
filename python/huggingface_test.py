@@ -34,14 +34,19 @@ def classify_image(image_path):
         if predicted_class_score < 0.5:
             result = "Unknown"
 
-    return label, predicted_class_idx, predicted_class_score
+    return label, predicted_class_idx, predicted_class_score, result
 
 # Path to your image file
 image_path = "./benign.jpg"
-label, predicted_class_idx, predicted_class_score = classify_image(image_path)
-string = "".join(label).replace("_", " ").title()
+try:
+    label, predicted_class_idx, predicted_class_score, result = classify_image(image_path)
+    string = "".join(label).replace("_", " ").title()
 
-# Output result
-print(f"Predicted Class: {string}")
-print(f"Predicted Class Index: {predicted_class_idx}")
-print(f"Predicted Confidence Score: {predicted_class_score:.4f}")
+    # Output result
+    print(f"Predicted Class: {string}")
+    print(f"Predicted Class Index: {predicted_class_idx}")
+    print(f"Predicted Confidence Score: {predicted_class_score:.4f}")
+    print(f"Classification Result: {result}")
+
+except Exception as e:
+    print(f"Error: {e}")
