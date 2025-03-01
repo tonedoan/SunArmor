@@ -25,6 +25,15 @@ def classify_image(image_path):
     label = model.config.id2label.get(predicted_class_idx, f"Class {predicted_class_idx}")
     predicted_class_score = torch.nn.functional.softmax(logits, dim=-1)[0][predicted_class_idx].item()  # Get class score
 
+    # Classify the image based on the index
+    if predicted_class_idx in [0,4,6]:
+        result = "Not Cancer"
+    elif predicted_class_idx in [1, 2, 3, 5]:
+        result = "Cancer or Problematic"
+    else:
+        if predicted_class_score < 0.5:
+            result = "Unknown"
+
     return label, predicted_class_idx, predicted_class_score
 
 # Path to your image file
