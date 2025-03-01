@@ -30,8 +30,9 @@ def classify_image(image_path):
 # Path to your image file
 image_path = "./benign.jpg"
 label, predicted_class_idx, predicted_class_score = classify_image(image_path)
+string = "".join(label).replace("_", " ").title()
 
 # Output result
-print(f"Predicted Class: {label}")
+print(f"Predicted Class: {string}")
 print(f"Predicted Class Index: {predicted_class_idx}")
 print(f"Predicted Confidence Score: {predicted_class_score:.4f}")
