@@ -8,12 +8,12 @@ processor = AutoImageProcessor.from_pretrained("Anwarkh1/Skin_Cancer-Image_Class
 model = AutoModelForImageClassification.from_pretrained("Anwarkh1/Skin_Cancer-Image_Classification")
 
 # Function to preprocess image and run inference
-def classify_image(image_path):
+def classify_image(image):
     # Open the image file
-    image = Image.open(image_path).convert("RGB")
+    processed_image = image.convert("RGB")
 
     # Preprocess the image using the processor
-    inputs = processor(images=image, return_tensors="pt")
+    inputs = processor(images=processed_image, return_tensors="pt")
 
     # Run inference (no gradients required)
     with torch.no_grad():
@@ -27,11 +27,11 @@ def classify_image(image_path):
 
     return label, predicted_class_idx, predicted_class_score
 
-# Path to your image file
-image_path = "./benign.jpg"
-label, predicted_class_idx, predicted_class_score = classify_image(image_path)
+# # Path to your image file
+# image_path = "content/mole.jpg"
+# label, predicted_class_idx, predicted_class_score = classify_image(image_path)
 
 # Output result
-print(f"Predicted Class: {label}")
-print(f"Predicted Class Index: {predicted_class_idx}")
-print(f"Predicted Confidence Score: {predicted_class_score:.4f}")
+# print(f"Predicted Class: {label}")
+# print(f"Predicted Class Index: {predicted_class_idx}")
+# print(f"Predicted Confidence Score: {predicted_class_score:.4f}")
