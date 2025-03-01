@@ -40,7 +40,7 @@ def upload_image():
             img = Image.open(filename)
             # Example processing: get image dimensions
             width, height = img.size
-            label, predicted_class_idx, predicted_class_score = classify_image(img)
+            label, predicted_class_idx, predicted_class_score, result = classify_image(img)
             accuracy = str(predicted_class_score * 100)[0:2] + "%"
 
 
@@ -48,7 +48,8 @@ def upload_image():
 
                 'message': 'Image uploaded successfully',
                 'label': label,
-                'predicted_class_score': accuracy
+                'predicted_class_score': accuracy,
+                'result': result
            }), 200
 
         except Exception as e:
