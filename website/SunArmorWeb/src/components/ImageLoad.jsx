@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 
 function ImageUploader() {
     const [selectedFile, setSelectedFile] = useState(null)
@@ -6,6 +6,8 @@ function ImageUploader() {
     const [uploading, setUploading] = useState(false)
     const [response, setResponse] = useState(null)
     const [error, setError] = useState(null)
+
+    const imgInput = useRef(null)
 
     // Replace with your ngrok URL from Colab
     const API_URL = 'https://bcfb-130-86-97-245.ngrok-free.app/upload'
@@ -71,24 +73,25 @@ function ImageUploader() {
     }
 
     return (
-        <div className='max-w-md mx-auto p-6 bg-white rounded-lg shadow-md'>
-            <h2 className='text-2xl font-bold mb-4 text-black'>
-                Skin Cancer Detection
-            </h2>
-
+        <div className='w-75 sm:w-100 mx-auto p-6 bg-neutral-700 rounded-lg shadow-lg'>
             <div className='mb-4'>
-                <label className='block text-black mb-2'>Select Image</label>
                 <input
                     type='file'
                     accept='image/*'
                     onChange={handleFileChange}
-                    className='w-full p-2 rounded-full bg-green-500'
+                    style={{ display: 'none' }}
+                    ref={imgInput}
                 />
+                <button
+                    onClick={() => imgInput.current.click()}
+                    className='w-full p-2 rounded text-black bg-peach hover:bg-peach-light font-display'
+                >
+                    SELECT IMAGE
+                </button>
             </div>
 
             {preview && (
-                <div className='mb-4'>
-                    <p className='text-gray-700 mb-2'>Preview:</p>
+                <div className='mb-4 flex flex-col items-center'>
                     <img
                         src={preview}
                         alt='Preview'
@@ -100,33 +103,31 @@ function ImageUploader() {
             <button
                 onClick={handleUpload}
                 disabled={!selectedFile || uploading}
-                className={`w-full p-2 rounded text-white font-bold ${
+                className={`w-full p-2 rounded text-black font-display ${
                     !selectedFile || uploading
-                        ? 'bg-gray-400'
-                        : 'bg-blue-500 hover:bg-blue-600'
+                        ? 'bg-neutral-400'
+                        : 'bg-peach hover:bg-peach-light'
                 }`}
             >
-                {uploading ? 'Uploading...' : 'Upload to Colab'}
+                {uploading ? 'UPLOADING...' : 'UPLOAD'}
             </button>
 
             {error && (
-                <div className='mt-4 p-3 bg-red-100 text-red-700 rounded'>
-                    Error: {error}
+                <div className='mt-4 p-3 bg-neutral-300 text-red-500 rounded font-display'>
+                    ERROR: {error}
                 </div>
             )}
 
             {response && (
-                <div className='mt-4 p-3 bg-green-100 text-green-700 rounded'>
-                    <p>
-                        <strong>Success!</strong> {response.message}
-                    </p>
-                    <p>
+                <div className='mt-4 p-3 bg-neutral-300 text-green-500 rounded font-display'>
+                    <span>Success! {response.message}</span>
+                    <span>
                         Label: {response.label}
                         <br />
                         Score: {response.predicted_class_score}
                         <br />
                         Result: {response.result}
-                    </p>
+                    </span>
                 </div>
             )}
         </div>
